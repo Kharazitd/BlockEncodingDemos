@@ -51,7 +51,7 @@ plt.show()
 
 ###TIME STEPPING 2d
 N = 32
-lam = 100
+lam = 1000
 #laplacian (scale-free)
 periodic_2d = Derivatives(2,N,1,dim=2).fdMat()
 #project onto boundary
@@ -92,7 +92,9 @@ for i in range(n_steps):
     t_array.append(sol.t)
     #convert back from interaction picture 
     bndry_points = projector2d.diagonal().nonzero()
-    vals = U(sol.t)@sol.y
+    #vals = U(-sol.t)@sol.y
+    #seems to work better if you don't do this though?
+    vals = sol.y
     #collect boundary values
     bndry_vals = np.zeros(N**2)
     bndry_vals[bndry_points] =  vals[bndry_points]
